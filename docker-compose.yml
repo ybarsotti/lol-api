@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  py:
+    build: ./docker/python
+    volumes:
+      - .:/app
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
