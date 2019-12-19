@@ -9,12 +9,12 @@ REGIONAL_API_URL = "https://americas.api.riotgames.com"
 API_KEY = "RGAPI-9c88f5f3-dbd8-409c-892c-97eab34d5119"
 
 
-def create_tournament_code(qtd=1):
+def create_tournament(tournament_id):
     url = REGIONAL_API_URL + "/lol/tournament-stub/v4/codes"
 
     params = {
-        'count': qtd,
-        'tournamentId': ''.join(random.choices(string.digits, k=25)),
+        'count': 2,
+        'tournamentId': tournament_id,
         "api_key": API_KEY
     }
 
@@ -25,9 +25,8 @@ def create_tournament_code(qtd=1):
       "teamSize": 5
     }
 
-    payload = requests.post(url, params=json.dumps(params), data=body)
-
-    print('Url: ' + payload.url + ' response ' + payload.text)
+    response = requests.post(url, params=params, data=json.dumps(body))
+    print(f"Sala de campeonato criada  / Código da sala: {response.text}")
 
 
 def create_tournament_providers():
@@ -43,6 +42,26 @@ def create_tournament_providers():
     }
 
     response = requests.post(url, params=params, data=json.dumps(body))
+    provider_id = response.text
+    print('Provider ID: ' + provider_id)
+    create_tournament_code(provider_id)
+
+
+def create_tournament_code(provider_id):
+    url = REGIONAL_API_URL + "/lol/tournament-stub/v4/tournaments"
+
+    params = {
+        "api_key": API_KEY
+    }
+
+    body = {
+      "name": "PVT dos Suricatos",
+      "providerId": provider_id
+    }
+
+    response = requests.post(url, params=params, data=json.dumps(body))
+    print("Tournament Code: " + response.text)
+    create_tournament(response.text)
 
 
 def main():
