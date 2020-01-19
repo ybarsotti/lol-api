@@ -6,7 +6,7 @@ import json
 
 PLATFORM_API_URL = "https://br1.api.riotgames.com"
 REGIONAL_API_URL = "https://americas.api.riotgames.com"
-API_KEY = "RGAPI-9c88f5f3-dbd8-409c-892c-97eab34d5119"
+API_KEY = "SECRET"
 
 
 def create_tournament(tournament_id):
